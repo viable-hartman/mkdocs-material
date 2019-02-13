@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2018 Martin Donath <martin.donath@squidfunk.com>
+# Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -18,7 +18,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-FROM jfloff/alpine-python:2.7-slim
+FROM jfloff/alpine-python:3.6-slim
 MAINTAINER Martin Donath <martin.donath@squidfunk.com>
 
 # Set build directory

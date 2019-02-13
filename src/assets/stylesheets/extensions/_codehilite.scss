@@ -1,5 +1,5 @@
 ////
-/// Copyright (c) 2016-2018 Martin Donath <martin.donath@squidfunk.com>
+/// Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a
 /// copy of this software and associated documentation files (the "Software"),
@@ -194,14 +194,14 @@ $codehilite-whitespace: transparent;
   // Highlighted lines
   .hll {
     display: block;
-    margin: 0 -1.2rem;
-    padding: 0 1.2rem;
+    margin: 0 px2rem(-12px);
+    padding: 0 px2rem(12px);
     background-color: transparentize($clr-yellow-500, 0.5);
 
     // [mobile -]: Stretch to whole width
     @include break-to-device(mobile) {
-      margin: 0 -1.6rem;
-      padding: 0 1.6rem;
+      margin: 0 px2rem(-16px);
+      padding: 0 px2rem(16px);
     }
   }
 }
@@ -219,7 +219,7 @@ $codehilite-whitespace: transparent;
     position: relative;
     margin: 1em 0;
     padding: 0;
-    border-radius: 0.2rem;
+    border-radius: px2rem(2px);
     background-color: $md-code-background;
     color: $md-code-color;
     line-height: 1.4;
@@ -230,15 +230,15 @@ $codehilite-whitespace: transparent;
     code {
       display: block;
       margin: 0;
-      padding: 1.05rem 1.2rem;
+      padding: px2rem(10.5px) px2rem(12px);
       background-color: transparent;
       overflow: auto;
       vertical-align: top;
 
       // Override native scrollbar styles
       &::-webkit-scrollbar {
-        width: 0.4rem;
-        height: 0.4rem;
+        width: px2rem(4px);
+        height: px2rem(4px);
       }
 
       // Style scrollbar thumb
@@ -253,14 +253,14 @@ $codehilite-whitespace: transparent;
     }
   }
 
-  // If not using Pygments, code will be under pre>code
+  // If not using Pygments, code will be under pre > code
   pre.codehilite {
     overflow: visible;
 
     // Actual container with code, overflowing
     code {
       display: block;
-      padding: 1.05rem 1.2rem;
+      padding: px2rem(10.5px) px2rem(12px);
       overflow: auto;
     }
   }
@@ -297,7 +297,7 @@ $codehilite-whitespace: transparent;
 
     // Add spacing to line number container
     .linenodiv {
-      padding: 1.05rem 1.2rem;
+      padding: px2rem(10.5px) px2rem(12px);
     }
 
     // Disable user selection, so code can be easily copied without
@@ -330,38 +330,44 @@ $codehilite-whitespace: transparent;
 
     // [mobile -]: Stretch to whole width
     @include break-to-device(mobile) {
-      margin: 1em -1.6rem;
+      margin: 1em px2rem(-16px);
       border-radius: 0;
 
       // Actual container with code, overflowing
       pre,
       code {
-        padding: 1.05rem 1.6rem;
+        padding: px2rem(10.5px) px2rem(16px);
       }
     }
   }
 
-  // Full-width container
+  // Full-width container on top-level
   > .codehilitetable {
     box-shadow: none;
 
     // [mobile -]: Stretch to whole width
     @include break-to-device(mobile) {
-      margin: 1em -1.6rem;
+      margin: 1em px2rem(-16px);
       border-radius: 0;
 
       // Increase spacing
       .codehilite > pre,
       .codehilite > code,
       .linenodiv {
-        padding: 1rem 1.6rem;
+        padding: px2rem(10px) px2rem(16px);
       }
     }
   }
 
-  // When pymdownx.superfences is enabled but codehilite is disabled, the
-  // outer container gets this class name by default.
+  // When pymdownx.superfences is enabled but codehilite is disabled,
+  // pymdownx.highlight will be used. When this happens, the outer
+  // container and tables get this class names by default.
   .highlight {
     @extend .codehilite;
+  }
+
+  // Same as above, but for code blocks with line numbers enabled
+  .highlighttable {
+    @extend .codehilitetable;
   }
 }

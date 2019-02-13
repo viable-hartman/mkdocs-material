@@ -24,7 +24,7 @@ pip install mkdocs && mkdocs --version
 
 Material requires MkDocs >= 0.17.1.
 
-  [1]: http://www.mkdocs.org
+  [1]: https://www.mkdocs.org
 
 ### Installing Material
 
@@ -297,6 +297,11 @@ theme:
 
 ### Language
 
+!!! info "Call for Contributions: Add languages/translations to Material"
+
+    Help translate Material into more languages - it's just **one click** and
+    takes approximately **2 minutes**: [click here](http://bit.ly/2EbzFc8)
+
 #### Localization
 
 > Default: `en`
@@ -314,48 +319,64 @@ translations for all template variables and labels in the following languages:
     <tr>
       <td><code>ar</code> / Arabic</td>
       <td><code>ca</code> / Catalan</td>
+      <td><code>cs</code> / Czech</td>
       <td><code>da</code> / Danish</td>
-      <td><code>nl</code> / Dutch</td>
     </tr>
     <tr>
+      <td><code>nl</code> / Dutch</td>
       <td><code>en</code> / English</td>
+      <td><code>fi</code> / Finnish</td>
       <td><code>fr</code> / French</td>
+    </tr>
+    <tr>
+      <td><code>gl</code> / Galician</td>
       <td><code>de</code> / German</td>
+      <td><code>gr</code> / Greek</td>
       <td><code>he</code> / Hebrew</td>
     </tr>
     <tr>
+      <td><code>hi</code> / Hindi</td>
+      <td><code>hr</code> / Croatian</td>
       <td><code>hu</code> / Hungarian</td>
+      <td><code>id</code> / Indonesian</td>
+    </tr>
+    <tr>
       <td><code>it</code> / Italian</td>
       <td><code>ja</code> / Japanese</td>
       <td><code>kr</code> / Korean</td>
+      <td><code>no</code> / Norwegian</td>
     </tr>
     <tr>
-      <td><code>no</code> / Norwegian</td>
       <td><code>fa</code> / Persian</td>
       <td><code>pl</code> / Polish</td>
       <td><code>pt</code> / Portugese</td>
+      <td><code>ru</code> / Russian</td>
     </tr>
     <tr>
-      <td><code>ru</code> / Russian</td>
+      <td><code>sr</code> / Serbian</td>
+      <td><code>sh</code> / Serbo-Croatian</td>
+      <td><code>sk</code> / Slovak</td>
       <td><code>es</code> / Spanish</td>
+    </tr>
+    <tr>
       <td><code>sv</code> / Swedish</td>
       <td><code>tr</code> / Turkish</td>
-    </tr>
-    <tr>
       <td><code>uk</code> / Ukrainian</td>
       <td><code>vi</code> / Vietnamese</td>
+    </tr>
+    <tr>
       <td colspan="2">
         <code>zh</code> / Chinese (Simplified)
       </td>
-    </tr>
-    <tr>
       <td colspan="2">
         <code>zh-Hant</code> / Chinese (Traditional)
       </td>
+    </tr>
+    <tr>
+      <td colspan="2"><code>zh-TW</code> / Chinese (Taiwanese)</td>
       <td colspan="2" align="right">
         <a href="http://bit.ly/2EbzFc8">Submit a new language</a>
       </td>
-    </tr>
     </tr>
   </tbody>
 </table>
@@ -375,9 +396,6 @@ all translations:
 ``` sh
 cp partials/language/en.html partials/language/jp.html
 ```
-
-Feel free to contribute your localization to Material for MkDocs by opening a
-Pull Request.
 
   [16]: https://www.w3schools.com/tags/ref_language_codes.asp
 
@@ -447,11 +465,13 @@ At the time of writing, the following languages are supported:
   </tbody>
 </table>
 
-!!! info "Search language support for Chinese"
+!!! warning "MkDocs 1.0 compatibility"
 
-    [lunr-languages][18] currently doesn't include a stemmer for Chinese or
-    other Asian languages, but uses the Japanese stemmer, as some users
-    reported pretty decent results.
+    While MkDocs 1.0 supports prebuilding the search index, Material currently
+    doesn't support this setting as the default search behavior of the original
+    theme was heavily modified for the sake of a better UX. Integration is
+    possible, but a small subset of the features Material provides will not be
+    portable to the prebuilt index mainly due to missing localization.
 
 !!! warning "Only specify the languages you really need"
 
@@ -489,16 +509,25 @@ theme:
 
 > Default: `false`
 
-Material supports another layer on top of the main navigation for larger
-screens in the form of tabs. This is especially useful for larger documentation
-projects with only few top-level sections. Tabs can be enabled by setting the
-respective feature flag to true:
+By default, the entire navigation is rendered on the left side using collapsible
+sections (different from the default MkDocs theme which renders the top-level
+sections in the header), because horizontal navigation is often problematic on
+smaller screens. However, for large documentation projects it's sometimes
+desirable to add another navigation layer to separate top-level sections.
+Material achieves this with the tabs feature, which can be enabled by setting
+the respective feature flag to `true`:
 
 ``` yaml
 theme:
   feature:
     tabs: true
 ```
+
+When tabs are enabled, *top-level sections* will be rendered in an additional
+layer directly below the header. The navigation on the left side will only
+include the pages contained within the selected section. Furthermore, *top-level
+pages* defined inside your project's `mkdocs.yml` will be grouped under the
+first tab which will receive the title of the first page.
 
 ## Customization
 
@@ -531,7 +560,7 @@ set explicitly by setting `extra.repo_icon` to `github`, `gitlab` or
     guidance regarding the `edit_uri` attribute, which defines whether the edit
     button is shown or not.
 
-  [19]: http://www.mkdocs.org/user-guide/configuration/#edit_uri
+  [19]: https://www.mkdocs.org/user-guide/configuration/#edit_uri
 
 ### Adding social links
 
@@ -557,12 +586,25 @@ will result in `fa fa-github`.
 
   [20]: http://fontawesome.io/icons/
 
+### Adding a Web App Manifest
+
+A [Web App Manifest][21] is a simple JSON file that tells the browser about your
+web application and how it should behave when installed on the user's mobile
+device or desktop. You can specify a manifest in your `mkdocs.yml`:
+
+```yaml
+extra:
+  manifest: 'manifest.webmanifest'
+```
+
+  [21]: https://developers.google.com/web/fundamentals/web-app-manifest/
+
 ### More advanced customization
 
   If you want to change the general appearance of the Material theme, see
-  [this article][21] for more information on advanced customization.
+  [this article][22] for more information on advanced customization.
 
-  [21]: customization.md
+  [22]: customization.md
 
 ## Integrations
 
@@ -581,7 +623,7 @@ google_analytics:
 
 ### Disqus
 
-Material for MkDocs is integrated with [Disqus][22], so if you want to add a
+Material for MkDocs is integrated with [Disqus][23], so if you want to add a
 comments section to your documentation set the shortname of your Disqus project
 in your `mkdocs.yml`:
 
@@ -600,14 +642,14 @@ automatically included.
     `site_url` value must be set in `mkdocs.yml` for the Disqus integration to
     load properly.
 
-Disqus can also be enabled or disabled for specific pages using [Metadata][23].
+Disqus can also be enabled or disabled for specific pages using [Metadata][24].
 
-  [22]: https://disqus.com
-  [23]: extensions/metadata.md#disqus
+  [23]: https://disqus.com
+  [24]: extensions/metadata.md#disqus
 
 ## Extensions
 
-MkDocs supports several [Markdown extensions][24]. The following extensions
+MkDocs supports several [Markdown extensions][25]. The following extensions
 are not enabled by default (see the link for which are enabled by default)
 but highly recommended, so they should be switched on at all times:
 
@@ -623,20 +665,20 @@ markdown_extensions:
 For more information, see the following list of extensions supported by the
 Material theme including more information regarding installation and usage:
 
-* [Admonition][25]
-* [Codehilite][26]
-* [Footnotes][27]
-* [Metadata][28]
-* [Permalinks][29]
-* [PyMdown Extensions][30]
+* [Admonition][26]
+* [Codehilite][27]
+* [Footnotes][28]
+* [Metadata][29]
+* [Permalinks][30]
+* [PyMdown Extensions][31]
 
-  [24]: http://www.mkdocs.org/user-guide/writing-your-docs/#markdown-extensions
-  [25]: extensions/admonition.md
-  [26]: extensions/codehilite.md
-  [27]: extensions/footnotes.md
-  [28]: extensions/metadata.md
-  [29]: extensions/permalinks.md
-  [30]: extensions/pymdown.md
+  [25]: https://www.mkdocs.org/user-guide/writing-your-docs/#markdown-extensions
+  [26]: extensions/admonition.md
+  [27]: extensions/codehilite.md
+  [28]: extensions/footnotes.md
+  [29]: extensions/metadata.md
+  [30]: extensions/permalinks.md
+  [31]: extensions/pymdown.md
 
 ## Full example
 
@@ -669,6 +711,7 @@ theme:
 
 # Customization
 extra:
+  manifest: 'manifest.webmanifest'
   social:
     - type: 'github'
       link: 'https://github.com/squidfunk'

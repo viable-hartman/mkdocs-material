@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2018 Martin Donath <martin.donath@squidfunk.com>
+# Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -33,8 +33,8 @@ node_modules:
 # -----------------------------------------------------------------------------
 
 # Build theme for distribution with Webpack
-material: $(shell find src) .babelrc webpack.config.ts
-	$(shell npm bin)/webpack --env.prod
+material: $(shell find src) .babelrc webpack.config.js
+	$(shell npm bin)/webpack --mode production
 
 # -----------------------------------------------------------------------------
 # Rules

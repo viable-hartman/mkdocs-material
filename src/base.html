@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2016-2018 Martin Donath <martin.donath@squidfunk.com>
+  Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to
@@ -27,7 +27,7 @@
 {% set palette = config.theme.palette %}
 {% set font = config.theme.font %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ lang.t('language') }}" class="no-js">
   <head>
 
@@ -47,8 +47,21 @@
         <meta name="description" content="{{ config.site_description }}" />
       {% endif %}
 
+      <!-- Redirect -->
+      {% if page and page.meta and page.meta.redirect %}
+        <script>
+          var anchor = window.location.hash.substr(1)
+          location.href = '{{ page.meta.redirect }}' +
+            (anchor ? '#' + anchor : '')
+        </script>
+
+        <!-- no-js fallback -->
+        <meta http-equiv="refresh" content="0; url={{ page.meta.redirect }}" />
+        <meta name="robots" content="noindex" />
+        <link rel="canonical" href="{{ page.meta.redirect }}" />
+
       <!-- Canonical -->
-      {% if page.canonical_url %}
+      {% elif page.canonical_url %}
         <link rel="canonical" href="{{ page.canonical_url }}" />
       {% endif %}
 
@@ -76,7 +89,7 @@
 
       <!-- Favicon -->
       <link rel="shortcut icon"
-          href="{{ base_url }}/{{ config.theme.favicon }}">
+          href="{{ config.theme.favicon | url }}">
 
       <!-- Generator banner -->
       <meta name="generator"
@@ -99,26 +112,35 @@
 
       <!-- Theme-related stylesheets -->
       <link rel="stylesheet" type="text/css"
-          href="{{ base_url }}/assets/stylesheets/application.css" />
+          href="{{ 'assets/stylesheets/application.css' | url }}" />
 
       <!-- Extra color palette -->
       {% if palette.primary or palette.accent %}
         <link rel="stylesheet" type="text/css"
-            href="{{ base_url }}/assets/stylesheets/application-palette.css" />
+            href="{{ 'assets/stylesheets/application-palette.css' | url }}" />
+      {% endif %}
+
+      <!-- Theme-color meta tag for Android -->
+      {% if palette.primary %}
+        {% import "partials/palette.html" as map %}
+        {% set primary = map.primary(
+          palette.primary | replace(" ", "-") | lower
+        ) %}
+        <meta name="theme-color" content="{{ primary }}" />
       {% endif %}
     {% endblock %}
 
     <!-- JavaScript libraries -->
     {% block libs %}
-      <script src="{{ base_url }}/assets/javascripts/modernizr.js"></script>
+      <script src="{{ 'assets/javascripts/modernizr.js' | url }}"></script>
     {% endblock %}
 
     <!-- Webfonts -->
     {% block fonts %}
-      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 
       <!-- Load fonts from Google -->
       {% if font != false %}
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
         <link rel="stylesheet" type="text/css"
             href="https://fonts.googleapis.com/css?family={{
               font.text | replace(' ', '+')  + ':300,400,400i,700|' +
@@ -135,16 +157,28 @@
           }
         </style>
       {% endif %}
-
-      <!-- Material icons as a default iconset -->
-      <link rel="stylesheet" type="text/css"
-          href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     {% endblock %}
 
+    <!-- Material icons as iconset -->
+    <link rel="stylesheet" type="text/css"
+        href="{{ 'assets/fonts/material-icons.css' | url }}" />
+
+    <!-- Progressive Web App Manifest -->
+    {% if config.extra.manifest %}
+      <link rel="manifest" href="{{ config.extra.manifest | url }}">
+    {% endif %}
+
     <!-- Custom stylesheets -->
-    {% for path in extra_css %}
-      <link rel="stylesheet" type="text/css" href="{{ path }}" />
+    {% for path in config["extra_css"] %}
+      <link rel="stylesheet" type="text/css" href="{{ path | url }}" />
     {% endfor %}
+
+    <!-- Analytic scripts -->
+    {% block analytics %}
+      {% if config.google_analytics %}
+        {% include "partials/integrations/analytics.html" %}
+      {% endif %}
+    {% endblock %}
 
     <!-- Custom front matter -->
     {% block extrahead %}{% endblock %}
@@ -180,14 +214,17 @@
       </defs>
     </svg>
 
-    <!-- State toggles -->
+    <!--
+      State toggles - we need to set autocomplete="off" in order to reset the
+      drawer on back button invocation in some browsers
+    -->
     <input class="md-toggle" data-md-toggle="drawer"
-        type="checkbox" id="drawer" />
+        type="checkbox" id="__drawer" autocomplete="off" />
     <input class="md-toggle" data-md-toggle="search"
-        type="checkbox" id="search" />
+        type="checkbox" id="__search" autocomplete="off" />
 
     <!-- Overlay for expanded drawer -->
-    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
 
     <!-- Render "skip to content" link -->
     {% if page.toc | first is defined %}
@@ -295,10 +332,7 @@
 
               <!-- Disqus integration -->
               {% block disqus %}
-                {% if (config.extra.disqus and not page.is_homepage) or
-                      (page and page.meta and page.meta.disqus) %}
-                  {% include "partials/integrations/disqus.html" %}
-                {% endif %}
+                {% include "partials/integrations/disqus.html" %}
               {% endblock %}
             </article>
           </div>
@@ -313,27 +347,32 @@
 
     <!-- Theme-related JavaScript -->
     {% block scripts %}
+<<<<<<< HEAD
       <script src="{{ base_url }}/assets/javascripts/application.js"></script>
       <script src="{{ base_url }}/assets/javascripts/index.js"></script>
+=======
+      <script src="{{ 'assets/javascripts/application.js' | url }}"></script>
+>>>>>>> master
 
       <!-- Load additional languages for search -->
       {% if lang.t("search.language") != "en" %}
         {% set languages = lang.t("search.language").split(",") %}
         {% if languages | length and languages[0] != "" %}
-          {% set path = base_url + "/assets/javascripts/lunr" %}
-          <script src="{{ path }}/lunr.stemmer.support.js"></script>
+          {% set path = "assets/javascripts/lunr/" %}
+          <script src="{{ (path ~ 'lunr.stemmer.support.js') | url }}"></script>
           {% for language in languages | map("trim") %}
             {% if language != "en" %}
               {% if language == "jp" %}
-                <script src="{{ path }}/tinyseg.js"></script>
+                <script src="{{ (path ~ 'tinyseg.js') | url }}"></script>
               {% endif %}
               {% if language in ($md-lunr-languages$) %}
-                <script src="{{ path }}/lunr.{{ language }}.js"></script>
+                <script src="{{ (path ~ 'lunr.' ~ language ~ '.js') | url }}">
+                </script>
               {% endif %}
             {% endif %}
           {% endfor %}
           {% if languages | length > 1 %}
-            <script src="{{ path }}/lunr.multi.js"></script>
+            <script src="{{ (path ~ 'lunr.multi.js') | url }}"></script>
           {% endif %}
         {% endif %}
       {% endif %}
@@ -347,16 +386,9 @@
           }
         });
       </script>
-      {% for path in extra_javascript %}
-        <script src="{{ path }}"></script>
+      {% for path in config["extra_javascript"] %}
+        <script src="{{ path | url }}"></script>
       {% endfor %}
-    {% endblock %}
-
-    <!-- Analytic scripts -->
-    {% block analytics %}
-      {% if config.google_analytics %}
-        {% include "partials/integrations/analytics.html" %}
-      {% endif %}
     {% endblock %}
   </body>
 </html>

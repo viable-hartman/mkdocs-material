@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2018 Martin Donath <martin.donath@squidfunk.com>
+# Copyright (c) 2016-2019 Martin Donath <martin.donath@squidfunk.com>
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
@@ -30,7 +30,7 @@ repo_url: https://github.com/squidfunk/mkdocs-material
 edit_uri: ""
 
 # Copyright
-copyright: 'Copyright &copy; 2016 - 2018 Martin Donath'
+copyright: 'Copyright &copy; 2016 - 2019 Martin Donath'
 
 # Configuration
 theme:
@@ -91,7 +91,10 @@ markdown_extensions:
       emoji_generator: !!python/name:pymdownx.emoji.to_svg
   - pymdownx.inlinehilite
   - pymdownx.keys
-  - pymdownx.magiclink
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.superfences
@@ -100,7 +103,7 @@ markdown_extensions:
   - pymdownx.tilde
 
 # Page tree
-pages:
+nav:
   - Material: index.md
   - Getting started: getting-started.md
   - Extensions:
@@ -112,6 +115,7 @@ pages:
     - PyMdown: extensions/pymdown.md
   - Specimen: specimen.md
   - Customization: customization.md
+  - Compliance with GDPR: compliance.md
   - Release notes: release-notes.md
   - Author's notes: authors-notes.md
   - Contributing: contributing.md
