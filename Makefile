@@ -18,64 +18,47 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 
-all: clean lint | build
-
-# -----------------------------------------------------------------------------
-# Prerequisites
-# -----------------------------------------------------------------------------
-
-# Install dependencies
-node_modules:
-	npm install
+all: lint clean | build test
 
 # -----------------------------------------------------------------------------
 # Targets
 # -----------------------------------------------------------------------------
 
-# Build theme for distribution with Webpack
-material: $(shell find src) .babelrc webpack.config.js
+# Distribution files
+material: $(shell find src) .babelrc tsconfig.json webpack.config.ts
 	$(shell npm bin)/webpack --mode production
 
 # -----------------------------------------------------------------------------
 # Rules
 # -----------------------------------------------------------------------------
 
-# Rebuild theme on changes with Webpack
-start-webpack: node_modules clean
-	$(shell npm bin)/webpack --watch
-
-# Serve documentation with MkDocs
-start-mkdocs: clean
-	while [ ! -d "./material" ]; do sleep 1; done
-	mkdocs serve
-
-# -----------------------------------------------------------------------------
-
 # Build distribution files
-build: node_modules material
+build: material
 
 # Clean distribution files
 clean:
-	rm -rf material
+	rm -rf coverage material
 
 # Lint source files
-lint: node_modules
-	$(shell npm bin)/eslint --max-warnings 0 .
+lint:
+	$(shell npm bin)/tslint -p tsconfig.json "src/**/*.ts"
+	#$(shell npm bin)/tslint -p tests/tsconfig.json "tests/**/*.ts"
 	$(shell npm bin)/stylelint `find src/assets -name *.scss`
 
 # Run Webpack and MkDocs in watch mode for local development server
-start: node_modules start-webpack start-mkdocs
+start:
+	$(shell npm bin)/webpack --watch
 
-# Run unit and integration tests
-test: node_modules
+# Execute tests
+test:
 	$(shell npm bin)/karma start tests/karma.conf.ts --single-run
 
-# Run unit and integration tests in watch mode
-watch: node_modules
+# Execute tests in watch mode
+watch:
 	$(shell npm bin)/karma start tests/karma.conf.ts
 
 # -----------------------------------------------------------------------------
 
 # Special targets
-.PHONY: .FORCE build clean lint start start-mkdocs start-webpack test watch
+.PHONY: .FORCE build clean lint start test watch
 .FORCE:

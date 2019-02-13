@@ -333,7 +333,8 @@ module.exports = (_env, args) => { // eslint-disable-line complexity
         })
       })
     )
+  }
 
   /* Oh my god, that was a hell of a setup */
-    return config
+  return config
 }

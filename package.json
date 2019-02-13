@@ -1,6 +1,6 @@
 {
   "name": "mkdocs-material",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A Material Design theme for MkDocs",
   "keywords": [
     "mkdocs",
@@ -23,17 +23,16 @@
     "url": "https://github.com/squidfunk/mkdocs-material.git"
   },
   "scripts": {
-    "build": "make clean build",
+    "build": "make build",
     "clean": "make clean",
     "lint": "make lint",
-    "start": "make -j start",
+    "start": "make start",
     "test": "make test",
     "watch": "make watch"
   },
   "dependencies": {
-    "huject": "^1.4.1",
-    "lodash": "^4.17.5",
-    "rxjs": "^5.5.6"
+    "ramda": "^0.26.1",
+    "rxjs": "^6.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -44,7 +43,6 @@
     "@types/html-minifier": "^3.5.1",
     "@types/jasmine": "^2.8.6",
     "@types/karma": "^1.7.3",
-    "@types/lodash": "^4.14.104",
     "@types/node": "^9.4.6",
     "@types/uglify-js": "^2.6.30",
     "@types/webpack": "^3.8.8",

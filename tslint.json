@@ -1,17 +1,31 @@
 {
   "extends": [
-    "tslint:latest"
+    "tslint:latest",
+    "tslint-no-circular-imports",
+    "tslint-sonarts"
   ],
   "rules": {
     "arrow-parens": [
       true,
       "ban-single-arg-parens"
     ],
+    "ban": [
+      true,
+      ["fit"],
+      ["fdescribe"],
+      ["xit"],
+      ["xdescribe"],
+      {
+        "name": "Object.assign",
+        "message": "Use the spread operator instead."
+      }
+    ],
     "class-name": true,
     "comment-format": [
       true,
       "check-space"
     ],
+    "cognitive-complexity": false,
     "curly": false,
     "indent": [
       true,
@@ -19,20 +33,37 @@
     ],
     "interface-name": false,
     "jsdoc-format": true,
+    "max-union-size": false,
+    "no-big-function": false,
+    "no-bitwise": false,
+    "no-duplicate-string": false,
     "no-implicit-dependencies": false,
+    "no-identical-functions": false,
     "no-internal-module": true,
+    "no-namespace": false,
     "no-null-keyword": true,
     "no-reference": false,
     "no-submodule-imports": false,
     "no-trailing-whitespace": true,
     "no-var-keyword": true,
+    "object-literal-key-quotes": [
+      true,
+      "consistent-as-needed"
+    ],
     "object-literal-sort-keys": false,
     "one-line": [
       true,
       "check-open-brace",
       "check-whitespace"
     ],
+    "ordered-imports": [
+      true,
+      {
+        "named-imports-order": "lowercase-last"
+      }
+    ],
     "prefer-const": true,
+    "prefer-for-of": false,
     "quotemark": [
       true,
       "double",
@@ -71,6 +102,7 @@
         "variable-declaration": "onespace"
       }
     ],
+    "variable-name": false,
     "whitespace": [
       true,
       "check-branch",
